@@ -5,70 +5,63 @@ class TestComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dollars: 10
+      count: 0,
+      val: 0
     }
-    this.onMouseLeaveHandler = this.onMouseLeaveHandler.bind(this);
-    this.onTimeoutHandler = this.onTimeoutHandler.bind(this);
-    this.onAjaxCallback = this.onAjaxCallback.bind(this);
-    this.onClickHandler = this.onClickHandler.bind(this);
   }
 
   componentDidMount() {
-    // Add custom event via `addEventListener`
+    // this.setState({count: this.state.count + 1})
+    // console.log(this.state.count) // 0 state 更新被合并且执行异步
     //
-    // The list of supported React events does include `mouseleave`
-    // via `onMouseLeave` prop
+    // this.setState({count: this.state.count + 1})
+    // console.log(this.state.count) // 0 state 更新被合并且执行异步
     //
-    // However, we are not adding the event the `React way` - this will have
-    // effects on how state mutates
+    // setTimeout(() => {
+    //   console.log(this.state.count) // 1
     //
-    // Check the list here - https://facebook.github.io/react/docs/events.html
-    document.getElementById('testButton').addEventListener('mouseleave', this.onMouseLeaveHandler);
+    //   this.setState({count: this.state.count + 1})
+    //   console.log(this.state.count) // 2 state 更新同步化
+    //
+    //   this.setState({count: this.state.count + 1})
+    //   console.log(this.state.count) // 3 state 更新同步化
+    // })
 
-    // Add JS timeout
-    //
-    // Again,outside React `world` - this will also have effects on how state
-    // mutates
-    setTimeout(this.onTimeoutHandler, 10000);
+    document.getElementById('button1').addEventListener('click', this.onClickHandler1);
 
-    // Make AJAX request
-    fetch('https://api.github.com/users')
-      .then(this.onAjaxCallback);
+    setTimeout(this.onTimeoutHandler, 1000);
+
+    fetch('https://api.github.com/users').then(this.onAjaxCallback);
   }
 
-  onClickHandler = () => {
-    console.log('State before (_onClickHandler): ' + JSON.stringify(this.state));
+  onClickHandler1 = () => {
+    console.log('State before (onClickHandler1): ' + JSON.stringify(this.state));
     this.setState({
-      dollars: this.state.dollars + 10
+      count: this.state.count + 1
     });
-    console.log('State after (_onClickHandler): ' + JSON.stringify(this.state));
+    console.log('State after (onClickHandler1): ' + JSON.stringify(this.state));
   }
 
-  onMouseLeaveHandler = () => {
-    console.log('State before (mouseleave): ' + JSON.stringify(this.state));
+  onClickHandler2 = () => {
+    console.log('State before (onClickHandler2): ' + JSON.stringify(this.state));
     this.setState({
-      dollars: this.state.dollars + 20
+      count: this.state.count + 2
     });
-    console.log('State after (mouseleave): ' + JSON.stringify(this.state));
+    console.log('State after (onClickHandler2): ' + JSON.stringify(this.state));
   }
 
   onTimeoutHandler = () => {
     console.log('State before (timeout): ' + JSON.stringify(this.state));
     this.setState({
-      dollars: this.state.dollars + 30
+      count: this.state.count + 3
     });
     console.log('State after (timeout): ' + JSON.stringify(this.state));
   }
 
   onAjaxCallback = (err, res) => {
-    // if (err) {
-    //   console.log('Error in AJAX call: ' + JSON.stringify(err));
-    //   return;
-    // }
-
     console.log('State before (AJAX call): ' + JSON.stringify(this.state));
     this.setState({
-      dollars: this.state.dollars + 40
+      count: this.state.count + 4
     });
     console.log('State after (AJAX call): ' + JSON.stringify(this.state));
   }
@@ -77,11 +70,19 @@ class TestComponent extends React.Component {
     console.log('State in render: ' + JSON.stringify(this.state));
 
     return (
-      <button
-        id="testButton"
-        onClick={this.onClickHandler}>
-        'Click me'
-      </button>
+      <div>
+        <button
+          id="button1"
+        >
+          'addEventListener'
+        </button>
+
+        <button
+          id="button2"
+          onClick={this.onClickHandler2}>
+          'props bind in jsx'
+        </button>
+      </div>
     );
   }
 }
