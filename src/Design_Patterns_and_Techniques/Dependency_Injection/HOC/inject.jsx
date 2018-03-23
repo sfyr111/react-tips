@@ -1,17 +1,20 @@
 import React from 'react'
 
-// var title = 'React Dependency Injection';
 export default function inject(Component) {
 
   return class Injector extends React.Component {
+
     render() {
+      const { title } = this.props
+
       return (
         <Component
           {...this.state}
           {...this.props}
-          title={ this.props.title }
+          {...this.children}
+          title={ title }
         />
       )
     }
-  };
+  }
 }
