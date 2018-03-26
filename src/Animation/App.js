@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import InitialMount from './react-transition-group/initialMount/initialMount'
+// import InitialMount from './react-transition-group/initialMount/initialMount'
+import TodoList from './react-transition-group/customClasses/customClasses'
 
 class App extends Component {
   render() {
-    return <InitialMount />
+    return <TodoList />
   }
 }
 

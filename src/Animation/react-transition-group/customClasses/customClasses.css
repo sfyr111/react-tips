@@ -1,0 +1,10 @@
+@import '~animate.css';
+
+
+.example-enter {
+  animation: 0.8s flipInX ease;
+}
+
+.example-leave {
+  animation: 0.5s flipOutX ease;
+}
