@@ -1,7 +1,7 @@
 import React from 'react'
 import { CSSTransitionGroup } from 'react-transition-group'
 
-import './customClasses.css'
+import './animateCSS.css'
 
 export default class TodoList extends React.Component {
   constructor(props) {
